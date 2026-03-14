@@ -3,9 +3,11 @@
     <span class="dots flex align-center">...</span>
     <% } else { %>
     <btn
-        data-reload-selectors="#leaderboard"
-        data-reload-url="<%= pagination.basePath %>?p=<%= num %>"
-        data-reload-replace-address="true"
+        hx-get="<%= pagination.basePath %>?p=<%= num %>"
+        hx-select="#leaderboard"
+        hx-target="#leaderboard"
+        hx-swap="outerHTML"
+        hx-replace-url="true"
         class="btn <%= num === pagination.current ? 'primary' : 'text' %>">
         <%= num %>
     </btn>

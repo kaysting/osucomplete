@@ -519,12 +519,12 @@ img {
     --btnFg: var(--c-base-60);
 }
 
-.btn:not(.primary).accent {
-    --btnFg: var(--c-accent-70);
-}
-
 .btn.text.danger {
     --btnFg: var(--danger);
+}
+
+.btn:not(.primary).accent {
+    --btnFg: var(--c-accent-60);
 }
 
 .btn.square {
