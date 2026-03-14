@@ -47,6 +47,7 @@ router.post('/webhook', async (req, res) => {
                     ...commit.modified.map(f => ({ path: f, type: 'm' })),
                     ...commit.removed.map(f => ({ path: f, type: 'r' }))
                 ];
+
                 const changeLines = [];
                 if (files.length == 0) changeLines.push(`No files changed.`);
                 while (files.length > 0) {
@@ -55,13 +56,15 @@ router.post('/webhook', async (req, res) => {
                     if (changeLines.join('\n').length > 1000) {
                         changeLines.pop();
                         changeLines.push(`... and ${files.length + 1} more ...`);
+                        break;
                     }
                 }
+
                 await utils.sendDiscordMessage(env.GITHUB_FEED_DISCORD_CHANNEL_ID, {
                     embeds: [
                         {
                             author: {
-                                name: `${req.body.sender.login} pushed a commit to ${req.body.repository.name}`,
+                                name: `${req.body.sender.login} pushed a commit to ${req.body.repository.name}/${req.body.ref.split('/').pop()}`,
                                 url: req.body.repository.html_url,
                                 icon_url: req.body.sender.avatar_url
                             },
