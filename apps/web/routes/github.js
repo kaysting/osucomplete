@@ -7,7 +7,7 @@ const cp = require('child_process');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.redirect('https://github.com/kaysting/osu-completionist');
+    res.redirect('https://github.com/kaysting/osucomplete');
 });
 
 const verifySignature = req => {

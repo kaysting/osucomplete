@@ -1,5 +1,5 @@
 {
-    "name": "osu-completionist",
+    "name": "osucomplete",
     "version": "1.0.0",
     "description": "A live completionist tracker and leaderboard for osu! players.",
     "main": "webserver.js",
