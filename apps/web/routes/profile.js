@@ -53,7 +53,7 @@ router.get('/:id/:category{/:categoryOld}', ensureUserExists, (req, res) => {
         req.params.category + (req.params.categoryOld ? `-${req.params.categoryOld}` : '')
     );
     const yearlyType = utils.ensureOneOf(req.query.yearly_type || req.session.yearlyType, ['maps', 'xp'], 'maps');
-    const selectors = req.headers['x-reload-selectors'] || '';
+    const partial = req.query.partial;
     const year = req.query.year;
     const month = req.query.month;
     const sort = req.query.sort || 'date_asc';
@@ -106,7 +106,7 @@ router.get('/:id/:category{/:categoryOld}', ensureUserExists, (req, res) => {
 
     const getRecommended = recentPasses => {
         // If not viewing our own profile or if basic stats are requested, return null
-        if (req.user.id !== req.me?.id || selectors.match(/#basicStats/)) {
+        if (req.user.id !== req.me?.id || (partial && partial !== 'play_next')) {
             return { recommended: null, recommendedQuery: null };
         }
 
@@ -253,30 +253,30 @@ router.get('/:id/:category{/:categoryOld}', ensureUserExists, (req, res) => {
     };
 
     // Render import progress partial if requested
-    if (selectors.match(/#importProgressCard/)) {
+    if (partial == 'import_card') {
         return res.renderPartial('profile/cardImportProgress', { updateStatus: getUpdateStatus() });
     }
 
     // Render yearly stats partial if requested
-    if (selectors.match(/#yearlyStats/)) {
+    if (partial == 'yearly_stats') {
         return res.renderPartial('profile/yearlyStats', { yearly: getYearlyStats(), yearlyType });
     }
 
     // Render year details if requested
-    if (selectors.match(/#yearlyPopupBody/)) {
+    if (partial == 'yearly_popup') {
         const yearDetails = getYearDetails();
         if (!yearDetails) return res.end('');
         return res.renderPartial('profile/yearlyPopupBody', yearDetails);
     }
 
     // Render share popup body if requested
-    if (selectors.match(/(#sharePopupBody|#sharePopupRenderList)/)) {
+    if (partial == 'share_popup') {
         const share = getShareData(getStats(), getYearlyStats());
         return res.renderPartial('profile/sharePopupBody', { share, query: req.query });
     }
 
     // Render play next partial if requested
-    if (selectors.match(/#playNext/)) {
+    if (partial == 'play_next') {
         const recentPasses = getRecentPasses();
         const { recommended, recommendedQuery } = getRecommended(recentPasses);
         return res.renderPartial('profile/cardPlayNext', {

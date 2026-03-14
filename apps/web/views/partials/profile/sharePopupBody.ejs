@@ -35,7 +35,13 @@
                 website.
             </li>
         </ul>
-        <form class="flex gap-12 flex-wrap" data-reload-selectors="#sharePopupRenderList">
+        <form
+            class="flex gap-12 flex-wrap"
+            hx-get="?partial=share_popup"
+            hx-target="#sharePopupBody"
+            hx-indicator="#sharePopupBody"
+            hx-swap="outerHTML"
+            hx-trigger="change, submit, input delay:500ms">
             <div class="flex col gap-4">
                 <label>Hue</label>
                 <div class="textbox" style="width: 100px">

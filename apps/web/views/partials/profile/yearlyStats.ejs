@@ -1,14 +1,18 @@
 <section id="yearlyStats" class="flex col gap-8">
     <div class="btnGroup">
         <btn
-            data-reload-selectors="#yearlyStats"
-            data-reload-url="?yearly_type=maps"
+            hx-get="?yearly_type=maps"
+            hx-select="#yearlyStats"
+            hx-target="#yearlyStats"
+            hx-indicator="#yearlyStats"
             class="btn <%= yearlyType == 'maps' ? 'primary' : '' %> small">
             <span class="label">map count</span>
         </btn>
         <btn
-            data-reload-selectors="#yearlyStats"
-            data-reload-url="?yearly_type=xp"
+            hx-get="?yearly_type=xp"
+            hx-select="#yearlyStats"
+            hx-target="#yearlyStats"
+            hx-indicator="#yearlyStats"
             class="btn <%= yearlyType == 'xp' ? 'primary' : '' %> small">
             <span class="label">cxp</span>
         </btn>
@@ -25,13 +29,10 @@
                 const year = el.dataset.year;
                 el.addEventListener('click', () => {
                     const title = `${year} completion details`;
-                    showPopup(title, '<div id="yearlyPopupBody"></div>', [{ label: 'Close' }], {
+                    showDynamicPopup(title, `?partial=yearly_popup&year=${year}`, [{ label: 'Close' }], {
                         closedby: 'any',
                         width: 900,
-                        height: 900,
-                        onBeforeShow: async dialog => {
-                            await reloadElement('#yearlyPopupBody', { url: `?year=${year}` });
-                        }
+                        height: 900
                     });
                 });
             });

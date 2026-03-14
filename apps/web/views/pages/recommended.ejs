@@ -1,11 +1,21 @@
 <link rel="stylesheet" href="<%- asset('/assets/css/recommended.css') %>" />
 <section class="flex col gap-16">
-    <div
-        id="recommended"
-        class="card flex col"
-        data-reload-socket-room="user_<%= locals?.me?.id %>,maps"
-        data-reload-on-show="true">
-        <form class="settings flex col gap-8" data-reload-selectors="#results,#searchHint,#statSettings">
+    <div id="recommended" class="card flex col" data-socket-room="user_<%= me?.id %>,maps">
+        <form
+            class="settings flex col gap-8"
+            hx-get="/recommended/<%= category %>"
+            hx-select="#results"
+            hx-select-oob="#searchHint"
+            hx-target="#results"
+            hx-indicator="#results"
+            hx-swap="outerHTML"
+            hx-replace-url="true"
+            hx-trigger="
+                page_refocus from:body throttle:60s,
+                socket_update_stats from:body,
+                socket_new_mapset from:body,
+                change, submit, input delay:500ms
+            ">
             <div class="inputs flex gap-8">
                 <div class="textbox medium hasIcon flex-grow">
                     <span class="icon">search</span>
@@ -40,12 +50,10 @@
                     <span class="icon">filter_alt</span>
                     <span class="label">Filter help</span>
                 </button>
-                <div id="searchHint" class="status" data-reload-socket-event="update_stats,new_mapset">
-                    Found <%= n(results.total_matches) %> un-passed maps
-                </div>
+                <div id="searchHint" class="status">Found <%= n(results.total_matches) %> un-passed maps</div>
             </div>
         </form>
-        <section id="results" data-reload-socket-event="<%= settings.sort !== '' ? 'update_stats,new_mapset' : '' %>">
+        <section id="results">
             <% if (results.beatmaps.length) { %>
             <div class="card lighter flex col gap-8" style="padding: 8px">
                 <div class="flex align-center justify-center flex-wrap gap-8">

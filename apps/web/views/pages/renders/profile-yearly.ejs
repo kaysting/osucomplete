@@ -4,14 +4,15 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Render</title>
-        <link rel="stylesheet" href="/assets/css/theme.css" />
-        <link rel="stylesheet" href="/assets/css/utils.css" />
-        <link rel="stylesheet" href="/assets/css/render-embeds.css" />
+        <link rel="stylesheet" href="/generic/css/utils.css" />
+        <link rel="stylesheet" href="/generic/css/theme.css" />
+        <link rel="stylesheet" href="<%= asset('/assets/css/layout.css') %>" />
+        <link rel="stylesheet" href="<%= asset('/assets/css/render-embeds.css') %>" />
     </head>
 
     <body>
         <div id="card" class="flex col gap-16 rounded-16">
-            <div id="header" class="flex row gap-16 align-center">
+            <div id="top" class="flex row gap-16 align-center">
                 <span class="title flex-grow flex-no-shrink">Completion by Year</span>
                 <span class="category overflow-hidden nowrap text-ellipsis"><%= categoryName %></span>
             </div>
@@ -19,14 +20,14 @@
                 <% for (const yearData of yearly) { %> <%- include('../../partials/statsYearEntryLine', { ...yearData,
                 yearlyType: 'maps' }) %> <% } %>
             </div>
-            <div id="footer" class="flex row gap-16 align-end">
+            <div id="bottom" class="flex row gap-16 align-end">
                 <span class="user flex gap-12 align-center flex-grow">
-                    <img src="<%= user.avatar_url %>" class="avatar rounded-8" />
+                    <img src="<%= user.avatar_url %>" class="avatar rounded-8 loaded" />
                     <div class="flex col gap-4">
                         <div class="flex row gap-8 align-center">
                             <span class="name"><%= user.name %></span>
-                            <img src="<%= user.country.flag_url %>" class="flag country" />
-                            <img src="<%= user.team.flag_url %>" class="flag team" />
+                            <img src="<%= user.country.flag_url %>" class="flag country loaded" />
+                            <img src="<%= user.team.flag_url %>" class="flag team loaded" />
                         </div>
                         <span class="rankCont">
                             Category rank

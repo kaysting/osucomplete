@@ -1,4 +1,14 @@
-// Use the sharing api or clipboard write to share text
+const $ = (selector, ancestor = document) => ancestor.querySelector(selector);
+const $$ = (selector, ancestor = document) => ancestor.querySelectorAll(selector);
+
+const escapeHTML = string => {
+    const div = document.createElement('div');
+    div.textContent = string;
+    return div.innerHTML;
+};
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 const copyText = async text => {
     try {
         await navigator.clipboard.writeText(text);
@@ -11,23 +21,6 @@ const copyText = async text => {
             [{ label: 'Close' }]
         );
         console.error('Error copying to clipboard:', err);
-    }
-};
-
-const copyImage = async imageUrl => {
-    try {
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
-        await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
-        showPopup('Image copied!', `<p>The image has been copied to your clipboard.</p>`, [{ label: 'Okay' }]);
-    } catch (err) {
-        showPopup(
-            'Clipboard copy failed',
-            `<p>We couldn't copy the image for you, so you'll have to do it yourself:</p>
-        <pre><code>${imageUrl}</code></pre>`,
-            [{ label: 'Close' }]
-        );
-        console.error('Error copying image to clipboard:', err);
     }
 };
 
@@ -130,6 +123,16 @@ const showPopup = (title, body, actions = [], options = {}) => {
     });
 
     return dialog;
+};
+
+const showDynamicPopup = (title, bodyUrl, actions = [], options = {}) => {
+    const popup = showPopup(
+        title,
+        `<div hx-get="${bodyUrl}" hx-swap="outerHTML" hx-trigger="load">Loading...</div>`,
+        actions,
+        options
+    );
+    htmx.process(popup);
 };
 
 // Tooltip logic written entirely by Gemimi
@@ -352,17 +355,143 @@ const updateTimestampElements = () => {
 };
 setInterval(updateTimestampElements, 1000);
 
+// Thanks Gemini for tons of troubleshooting with this function
+// Getting this to work is surprisingly difficult
+function safelyRunOnLoad(cb = () => {}) {
+    let hasRun = false;
+    const run = () => {
+        if (hasRun) return;
+        hasRun = true;
+        cb();
+    };
+
+    // 1. Initial Page Load
+    // If the HTML is still parsing, wait for it to finish.
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run, { once: true });
+        return;
+    }
+
+    // 2. HTMX Swaps
+    // If the document is already loaded, this script is being injected dynamically by HTMX.
+    // HTMX executes scripts right BEFORE the settle phase, so we listen for it.
+    document.addEventListener('htmx:afterSettle', run, { once: true });
+
+    // 3. The Safety Net
+    // HTMX's default settle delay is 20ms. If the afterSettle event hasn't fired
+    // after 150ms, it means this function was called outside of an HTMX swap.
+    // The timeout catches it and runs the callback safely.
+    setTimeout(run, 150);
+}
+
+let lastAudioButtonElement;
+let audioPlayer = new Audio();
+
+audioPlayer.addEventListener('ended', () => {
+    const elBtn = lastAudioButtonElement;
+    const elIcon = lastAudioButtonElement.querySelector('.icon');
+    elIcon.innerText = 'play_arrow';
+    elBtn.dataset.playing = false;
+});
+audioPlayer.addEventListener('pause', () => {
+    const elBtn = lastAudioButtonElement;
+    const elIcon = lastAudioButtonElement.querySelector('.icon');
+    elIcon.innerText = 'play_arrow';
+    elBtn.dataset.playing = false;
+});
+audioPlayer.addEventListener('play', () => {
+    const elBtn = lastAudioButtonElement;
+    const elIcon = lastAudioButtonElement.querySelector('.icon');
+    elIcon.innerText = 'pause';
+    elBtn.dataset.playing = true;
+});
+
+const audioButtonClick = (event, audioUrl) => {
+    // Get clicked button
+    const elBtn = event.currentTarget;
+    // If the this button is the same as the last one, handle play/pause
+    if (elBtn === lastAudioButtonElement) {
+        if (elBtn.dataset.playing === 'true') {
+            audioPlayer.pause();
+        } else {
+            audioPlayer.play();
+        }
+        return;
+    } else if (lastAudioButtonElement) {
+        // Reset previous button if it differs from the current one
+        lastAudioButtonElement.querySelector('.icon').innerText = 'play_arrow';
+        lastAudioButtonElement.dataset.playing = false;
+    }
+    // Update previous button variable
+    lastAudioButtonElement = elBtn;
+    // Play audio
+    audioPlayer.volume = parseFloat(localStorage.getItem('mapPreview')) || 0.5;
+    audioPlayer.src = audioUrl;
+    audioPlayer.play();
+};
+const audioVolumeSet = volume => {
+    volume = Math.min(1, Math.max(0, volume));
+    localStorage.setItem('mapPreview', volume.toString());
+    audioPlayer.volume = volume;
+};
+const audioVolumeDown = () => {
+    let volume = parseFloat(localStorage.getItem('mapPreview')) || 0.5;
+    audioVolumeSet(volume - 0.1);
+};
+const audioVolumeUp = () => {
+    let volume = parseFloat(localStorage.getItem('mapPreview')) || 0.5;
+    audioVolumeSet(volume + 0.1);
+};
+
+document.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+        document.body.classList.add('scrolled');
+    } else {
+        document.body.classList.remove('scrolled');
+    }
+});
+
+const onPageLoad = () => {
+    initCustomTooltips();
+    initImageLoadStates();
+    initSvgIconMasks();
+    updateTimestampElements();
+};
+const onPageUpdate = () => {
+    initImageLoadStates();
+    initSvgIconMasks();
+    updateTimestampElements();
+};
+
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     initCustomTooltips();
     initImageLoadStates();
     initSvgIconMasks();
     updateTimestampElements();
+
+    // Re-initialize on page update
+    document.body.addEventListener('htmx:afterSettle', e => {
+        initImageLoadStates();
+        initSvgIconMasks();
+        updateTimestampElements();
+    });
 });
 
-// Re-initialize on page update
-document.addEventListener('page:updated', e => {
-    initImageLoadStates();
-    initSvgIconMasks();
-    updateTimestampElements();
+// Fire custom show/focus event
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        document.body.dispatchEvent(new CustomEvent('page_refocus', { bubbles: true }));
+    }
+});
+
+// Handle proxied onClicks
+document.addEventListener('click', e => {
+    const interactiveChild = e.target.closest('button, a, input');
+    const el = e.target.closest('[data-on-click]');
+    if (interactiveChild !== el && el?.contains(interactiveChild)) return;
+    if (el) {
+        const action = el.dataset.onClick;
+        eval(action);
+    }
 });

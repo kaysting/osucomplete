@@ -7,52 +7,53 @@ body {
     background: var(--c-base-18);
 }
 
-#header {
+#top {
     font-size: 18px;
     position: relative;
     line-height: 1.2;
 }
 
-#header .title {
+#top .title {
     color: white;
     font-weight: 600;
 }
 
-#header .category {
+#top .category {
     color: var(--c-base-90);
 }
 
-#footer .avatar {
+#bottom .avatar {
     height: 36px;
 }
 
-#footer {
+#bottom {
     font-size: 16px;
     color: var(--c-base-60);
     position: relative;
+    padding: 0px;
 }
 
-#footer .name {
+#bottom .name {
     font-size: 18px;
     font-weight: bold;
     color: white;
 }
 
-#footer .timestamp {
+#bottom .timestamp {
     font-size: 12px;
 }
 
-#footer .rank {
+#bottom .rank {
     color: var(--c-base-100);
     font-weight: 600;
 }
 
-#footer .flag {
+#bottom .flag {
     height: 16px;
     border-radius: 4px;
 }
 
-#footer .rankCont {
+#bottom .rankCont {
     font-size: 14px;
     color: var(--c-base-90);
     font-weight: 400;

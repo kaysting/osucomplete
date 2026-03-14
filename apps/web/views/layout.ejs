@@ -58,11 +58,12 @@
         <% } %>
 
         <!-- CSS -->
-        <link rel="stylesheet" href="<%= asset('/assets/css/utils.css') %>" />
-        <link rel="stylesheet" href="<%= asset('/assets/css/theme.css') %>" />
+        <link rel="stylesheet" href="<%= asset('/generic/css/utils.css') %>" />
+        <link rel="stylesheet" href="<%= asset('/generic/css/theme.css') %>" />
         <link rel="stylesheet" href="<%= asset('/assets/css/layout.css') %>" />
 
         <!-- Libraries -->
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.8.1/dist/socket.io.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
@@ -74,8 +75,8 @@
         </script>
 
         <!-- Scripts -->
-        <script src="<%= asset('/assets/js/base.js') %>"></script>
-        <script src="<%= asset('/assets/js/partial.js') %>"></script>
+        <script src="<%= asset('/generic/js/base.js') %>"></script>
+        <!-- <script src="<%= asset('/assets/js/partial.js') %>"></script> -->
         <script src="<%= asset('/assets/js/socket.js') %>"></script>
         <script src="<%= asset('/assets/js/index.js') %>"></script>
     </head>
@@ -102,11 +103,11 @@
                     </button>
                     <div class="logo full flex-no-shrink">
                         <span class="white">osu!</span>
-                        <span class="green">complete</span>
+                        <span class="color">complete</span>
                     </div>
                     <div class="logo short flex-no-shrink">
                         <span class="white">o!</span>
-                        <span class="green">c</span>
+                        <span class="color">c</span>
                     </div>
                 </div>
                 <div class="scroll flex col gap-4 flex-grow">
@@ -196,7 +197,7 @@
                         </button>
                         <div class="logo">
                             <span class="white">o!</span>
-                            <span class="green">c</span>
+                            <span class="color">c</span>
                         </div>
                         <div class="pageSep separator"></div>
                         <div class="page flex gap-12 align-center flex-grow">
@@ -206,23 +207,6 @@
                     </div>
                     <% if (locals?.category_navigation) { %> <%- include('./partials/categorySelector') %> <% } %>
                 </div>
-
-                <!-- Script to initialize and handle topbar scrolled state -->
-                <script>
-                    function initTopbar() {
-                        const topbar = document.getElementById('topbar');
-                        const checkScroll = () => {
-                            if (window.scrollY > 8) {
-                                topbar.classList.add('scrolled');
-                            } else {
-                                topbar.classList.remove('scrolled');
-                            }
-                        };
-                        document.addEventListener('scroll', checkScroll);
-                        checkScroll();
-                    }
-                    initTopbar();
-                </script>
 
                 <main>
                     <!-- Dynamic page content -->

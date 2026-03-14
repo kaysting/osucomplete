@@ -16,18 +16,18 @@
 
 */ %>
 <a
-    class="leaderboardEntry relative rounded-12 overflow-hidden flex row align-center <%= locals?.stats?.length < 3 ? 'short' : 'long' %> <%= locals?.highlight ? 'highlight' : '' %>"
+    class="leaderboardEntry p-relative rounded-12 overflow-hidden flex row align-center <%= locals?.stats?.length < 3 ? 'short' : 'long' %> <%= locals?.highlight ? 'highlight' : '' %>"
     href="/u/<%= user.id %>/<%= locals?.category ? category : '' %>">
     <div class="rank"><%= `#${rank}` %></div>
-    <div class="content relative rounded-12 overflow-hidden flex align-center flex-grow">
-        <div class="profile relative rounded-12 overflow-hidden flex gap-16 align-center flex-grow">
-            <img src="<%= user.banner_url %>" class="banner absolute w-full h-full object-cover" loading="lazy" />
-            <div class="dimming absolute w-full h-full"></div>
+    <div class="content p-relative rounded-12 overflow-hidden flex align-center flex-grow">
+        <div class="profile p-relative rounded-12 overflow-hidden flex gap-16 align-center flex-grow">
+            <img src="<%= user.banner_url %>" class="banner p-absolute w-full h-full object-cover" loading="lazy" />
+            <div class="dimming p-absolute w-full h-full"></div>
             <img
                 src="<%= user.avatar_url %>"
-                class="avatar relative rounded-12 object-cover flex-no-shrink"
+                class="avatar p-relative rounded-12 object-cover flex-no-shrink"
                 loading="lazy" />
-            <div class="text relative flex col gap-4 flex-grow">
+            <div class="text p-relative flex col gap-4 flex-grow">
                 <div class="flags flex gap-8 align-center">
                     <div class="country flex gap-4 align-center" title="<%= user.country.name %>">
                         <img src="<%= user.country.flag_url %>" class="flag rounded-4 flex-no-shrink" loading="lazy" />
@@ -51,13 +51,13 @@
                 <% } %>
             </div>
             <% if (locals?.bar) { %>
-            <div class="bar relative w-full rounded-4">
+            <div class="bar p-relative w-full rounded-4">
                 <div
-                    class="filling absolute h-full rounded-4"
+                    class="filling p-absolute h-full rounded-4"
                     style="width: <%= bar.percent %>%; background: <%= bar.color %>"></div>
             </div>
             <% } %>
         </div>
     </div>
-    <div class="overlay absolute w-full h-full"></div>
+    <div class="overlay p-absolute w-full h-full"></div>
 </a>

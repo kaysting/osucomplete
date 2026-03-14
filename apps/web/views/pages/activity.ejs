@@ -1,51 +1,63 @@
 <link rel="stylesheet" href="<%- asset('/assets/css/activity.css') %>" />
-<div id="activity" class="flex col gap-24" data-reload-on-show="true">
+<div
+    id="activity"
+    class="flex col gap-24"
+    hx-get=""
+    hx-trigger="every 15s, page_refocus from:body throttle:60s"
+    hx-select-oob="#queue, #passFeed, #dailyLeaderboard, #monthlyLeaderboard"
+    hx-indicator="#queue, #passFeed, #dailyLeaderboard, #monthlyLeaderboard"
+    hx-swap="none">
     <h2 class="head flex justify-center text-center gap-8 flex-wrap">
         <div class="logo">
             <span class="white">osu!</span>
-            <span class="green">complete</span>
+            <span class="color">complete</span>
         </div>
         <span>Activity</span>
     </h2>
     <div class="grid">
         <div class="card">
-            <section id="queue" class="scroll flex col gap-16" data-reload-interval="30">
-                <div class="flex col">
-                    <div class="stickyHeaderCont">
-                        <h2 class="header">In progress (<%= queue.in_progress.length %>)</h2>
-                    </div>
-                    <% if (queue.in_progress.length) { %>
-                    <div class="userCardContainer">
-                        <!-- prettier-ignore -->
-                        <% for (const user of queue.in_progress) { %>
+            <section class="scroll flex col">
+                <div id="queue" class="flex col gap-16">
+                    <div class="flex col">
+                        <div class="stickyHeaderCont">
+                            <h2 class="header">In progress (<%= queue.in_progress.length %>)</h2>
+                        </div>
+                        <% if (queue.in_progress.length) { %>
+                        <div class="userCardContainer">
+                            <!-- prettier-ignore -->
+                            <% for (const user of queue.in_progress) { %>
                             <% if (!user) continue; %>
                             <%- include('../partials/userCard', { user }) %>
                         <% } %>
-                    </div>
-                    <% } else { %>
-                    <div class="empty">No users are being imported at this time.</div>
-                    <% } %>
-                </div>
-                <div class="flex col">
-                    <div class="stickyHeaderCont">
-                        <h2 class="header">Queued (<%= queue.waiting.length %>)</h2>
-                    </div>
-                    <% if (queue.waiting.length) { %>
-                    <div class="userCardContainer">
-                        <!-- prettier-ignore -->
-                        <% for (const user of queue.waiting) { %>
-                            <%- include('../partials/userCard', { user }) %>
+                        </div>
+                        <% } else { %>
+                        <div class="empty">No users are being imported at this time.</div>
                         <% } %>
                     </div>
-                    <% } else { %>
-                    <div class="empty">The import queue is empty.</div>
-                    <% } %>
+                    <div class="flex col">
+                        <div class="stickyHeaderCont">
+                            <h2 class="header">Queued (<%= queue.waiting.length %>)</h2>
+                        </div>
+                        <% if (queue.waiting.length) { %>
+                        <div class="userCardContainer">
+                            <!-- prettier-ignore -->
+                            <% for (const user of queue.waiting) { %>
+                            <%- include('../partials/userCard', { user }) %>
+                        <% } %>
+                        </div>
+                        <% } else { %>
+                        <div class="empty">The import queue is empty.</div>
+                        <% } %>
+                    </div>
                 </div>
             </section>
         </div>
-        <div class="card">
-            <section class="scroll flex col-rev">
-                <div id="passFeed" class="flex col-rev gap-2" data-reload-interval="15">
+        <div class="card flex col gap-16">
+            <div class="hpad">
+                <h2 class="header">Most completion in the past day</h2>
+            </div>
+            <section class="scroll flex col">
+                <div id="passFeed" class="flex col-rev gap-2">
                     <% if (passes.length == 0) { %>
                     <div class="empty">No data.</div>
                     <% } %>
@@ -72,17 +84,23 @@
                     </div>
                     <% } %>
                 </div>
-                <div class="stickyHeaderCont">
-                    <h2 class="header">Live pass feed</h2>
-                </div>
             </section>
+            <script>
+                (() => {
+                    const passFeed = document.getElementById('passFeed');
+                    if (passFeed) {
+                        const scrollContainer = passFeed.closest('.scroll');
+                        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+                    }
+                })();
+            </script>
         </div>
         <div class="card flex col gap-16">
             <div class="hpad">
                 <h2 class="header">Most completion in the past day</h2>
             </div>
             <section class="scroll flex col">
-                <div id="dailyLeaderboard" class="flex col gap-4" data-reload-interval="60">
+                <div id="dailyLeaderboard" class="flex col gap-4">
                     <% if (leaderboardDaily.length == 0) { %>
                     <div class="empty">No data.</div>
                     <% } %>
@@ -108,7 +126,7 @@
                 <h2 class="header">Most completion in the past month</h2>
             </div>
             <section class="scroll flex col">
-                <div id="monthlyLeaderboard" class="flex col gap-4" data-reload-interval="60">
+                <div id="monthlyLeaderboard" class="flex col gap-4">
                     <% if (leaderboardMonthly.length == 0) { %>
                     <div class="empty">No data.</div>
                     <% } %>

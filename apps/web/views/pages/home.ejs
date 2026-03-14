@@ -3,7 +3,7 @@
     <section class="header flex col gap-16 align-center">
         <div class="logo">
             <span class="white">osu!</span>
-            <span class="green">complete</span>
+            <span class="color">complete</span>
         </div>
         <% if (me) { %>
         <div class="slogan">Welcome back, <%= me.name %>!</div>
@@ -11,7 +11,7 @@
         <div class="slogan">A modern, feature-rich osu! completionist tracker and leaderboard</div>
         <% } %>
     </section>
-    <section class="actions relative flex col gap-12 align-center">
+    <section class="actions p-relative flex col gap-12 align-center">
         <div class="buttons flex gap-12 flex-wrap justify-center">
             <a href="/leaderboard" class="btn large">
                 <span class="icon filled">leaderboard</span>

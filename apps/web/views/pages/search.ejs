@@ -1,6 +1,14 @@
 <link rel="stylesheet" href="<%- asset('/assets/css/search.css') %>" />
 <section id="search" class="card flex col gap-8">
-    <form class="flex gap-8" data-reload-selectors="#results">
+    <form
+        class="flex gap-8"
+        hx-get="/search"
+        hx-select="#results"
+        hx-target="#results"
+        hx-indicator="#results"
+        hx-swap="outerHTML"
+        hx-trigger="change, submit, input delay:500ms"
+        hx-replace-url="true">
         <div class="textbox medium hasIcon flex-grow">
             <span class="icon">search</span>
             <input

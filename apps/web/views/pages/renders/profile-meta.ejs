@@ -4,17 +4,18 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Render</title>
-        <link rel="stylesheet" href="/assets/css/theme.css" />
-        <link rel="stylesheet" href="/assets/css/layout.css" />
-        <link rel="stylesheet" href="/assets/css/utils.css" />
+        <link rel="stylesheet" href="/generic/css/utils.css" />
+        <link rel="stylesheet" href="/generic/css/theme.css" />
+        <link rel="stylesheet" href="<%= asset('/assets/css/layout.css') %>" />
+        <link rel="stylesheet" href="<%= asset('/assets/css/render-embeds.css') %>" />
     </head>
 
     <body>
         <div id="card" class="flex col gap-16">
             <div id="top" class="flex align-center gap-16">
-                <div id="logo" class="flex-grow flex-no-shrink">
+                <div class="logo flex-grow flex-no-shrink">
                     <span class="white">osu!</span>
-                    <span class="green">complete</span>
+                    <span class="color">complete</span>
                 </div>
                 <div id="category"><%= categoryName %></div>
             </div>

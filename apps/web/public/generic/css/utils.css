@@ -67,6 +67,10 @@
     white-space: nowrap;
 }
 
+.gap-1 {
+    gap: 1px;
+}
+
 .gap-2 {
     gap: 2px;
 }
@@ -116,12 +120,16 @@
 }
 
 /* Position utilities */
-.relative {
+.p-relative {
     position: relative;
 }
 
-.absolute {
+.p-absolute {
     position: absolute;
+}
+
+.p-sticky {
+    position: sticky;
 }
 
 .left-0 {

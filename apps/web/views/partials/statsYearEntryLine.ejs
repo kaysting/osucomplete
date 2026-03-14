@@ -32,9 +32,9 @@
                 <span><%= n(completed) %> / <%= n(total) %> <%= unit %></span>
             </div>
         </div>
-        <div class="bar w-full relative rounded-4 overflow-hidden">
+        <div class="bar w-full p-relative rounded-4 overflow-hidden">
             <div
-                class="filling absolute h-full rounded-4"
+                class="filling p-absolute h-full rounded-4"
                 style="
                     width: <%= utils.clamp(utils.ceilToNearest(percent, 1), 2, 100) %>%;
                     background: <%= color %>;

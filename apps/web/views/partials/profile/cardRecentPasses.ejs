@@ -5,7 +5,7 @@
     <div>
         <h2 class="header">monthly progress</h2>
     </div>
-    <div>
+    <div style="position: relative; width: 100%; height: 250px">
         <canvas id="monthlyGraph"></canvas>
         <script>
             function loadMonthlyGraph() {
@@ -31,7 +31,7 @@
                     height: 250
                 });
             }
-            loadMonthlyGraph();
+            safelyRunOnLoad(loadMonthlyGraph);
         </script>
     </div>
     <div>
