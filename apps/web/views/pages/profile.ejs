@@ -5,6 +5,7 @@
     data-socket-room="user_<%= user.id %>,maps"
     hx-get=""
     hx-target="#profile"
+    hx-swap="outerHTML"
     hx-trigger="page_refocus from:body throttle:60s,
                 socket_update_profile from:body,
                 socket_update_stats from:body,
