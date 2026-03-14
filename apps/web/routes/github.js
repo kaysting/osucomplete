@@ -47,6 +47,7 @@ router.post('/webhook', async (req, res) => {
                     ...commit.modified.map(f => ({ path: f, type: 'm' })),
                     ...commit.removed.map(f => ({ path: f, type: 'r' }))
                 ];
+
                 const changeLines = [];
                 if (files.length == 0) changeLines.push(`No files changed.`);
                 while (files.length > 0) {
@@ -58,6 +59,7 @@ router.post('/webhook', async (req, res) => {
                         break;
                     }
                 }
+
                 await utils.sendDiscordMessage(env.GITHUB_FEED_DISCORD_CHANNEL_ID, {
                     embeds: [
                         {
