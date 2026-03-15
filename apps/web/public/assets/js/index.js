@@ -111,3 +111,60 @@ document.addEventListener('htmx:load', () => {
         graph.destroy();
     }
 });
+
+// (re-)initialize socket.io with updated room list
+// This should be called only when socket rooms/events change
+let socket;
+const initSocket = () => {
+    // Close existing socket
+    if (socket) socket.disconnect();
+
+    // Get unique rooms from data-socket-room attributes
+    const rooms = new Set();
+    $$('[data-socket-room]').forEach(el => {
+        if (!el.dataset.socketRoom) return;
+        el.dataset.socketRoom.split(',').forEach(room => {
+            rooms.add(room.trim());
+        });
+    });
+
+    // Get unique event names from hx triggers
+    const events = new Set();
+    $$('[hx-trigger]').forEach(el => {
+        const hxTrigger = el.getAttribute('hx-trigger');
+        const socketTriggers = hxTrigger.match(/socket_([a-z_]+)/g); // Match "socket_{event_name}"
+        if (!socketTriggers) return;
+        socketTriggers.forEach(t => events.add(t.replace('socket_', '')));
+    });
+
+    // Don't connect if no rooms or events were found
+    if (rooms.size == 0 || events.size == 0) {
+        console.log(`Not initializing socket, no rooms found.`);
+        return;
+    }
+
+    // Connect to socket
+    socket = io('/', {
+        path: '/ws'
+    });
+
+    socket.on('connect', () => {
+        console.log('Connected to socket');
+
+        // Subscribe to rooms
+        rooms.forEach(room => {
+            socket.emit('subscribe', room);
+            console.log(`Subscribed to socket room ${room}`);
+        });
+    });
+
+    // Listen for events
+    events.forEach(eventName => {
+        socket.on(eventName, data => {
+            const socketEventName = `socket_${eventName}`;
+            document.body.dispatchEvent(new CustomEvent(socketEventName, { bubbles: true }));
+            console.log(`Received and dispatched event ${socketEventName}`);
+        });
+        console.log(`Listening for socket event ${eventName}`);
+    });
+};
