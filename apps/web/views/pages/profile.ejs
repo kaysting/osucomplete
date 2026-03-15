@@ -4,16 +4,15 @@
     class="flex col gap-16"
     data-socket-room="user_<%= user.id %>,maps"
     hx-get=""
-    hx-target="#profile"
-    hx-select="#profile"
-    hx-swap="outerHTML"
-    hx-trigger="page_refocus from:body throttle:60s,
-                socket_update_profile from:body,
-                socket_update_stats from:body,
-                socket_new_mapset from:body">
+    hx-select-oob="#basicStats,#completionProgressCard,#recentPassesCard"
+    hx-swap="none"
+    hx-trigger="page_refocus from:body throttle:60s, socket_update_stats from:body, socket_new_mapset from:body">
     <%- include('../partials/profile/cardImportProgress', { updateStatus }) %>
     <section id="profileContent" class="card flex col gap-8">
-        <div class="banner p-relative rounded-8 w-full" style="background-image: url('<%= user.banner_url %>')">
+        <div
+            id="banner"
+            class="banner p-relative rounded-8 w-full"
+            style="background-image: url('<%= user.banner_url %>')">
             <div class="buttons p-absolute flex row-rev gap-8 flex-wrap">
                 <a
                     class="btn translucent square"
@@ -44,7 +43,7 @@
                 <% } %>
             </div>
         </div>
-        <div class="basics overflow-hidden flex gap-16 align-center">
+        <div id="basics" class="basics overflow-hidden flex gap-16 align-center">
             <img src="<%= user.avatar_url %>" class="avatar rounded-24 flex-no-shrink" />
             <div class="text overflow-hidden text-ellipsis nowrap flex col gap-4 flex-grow">
                 <div class="name overflow-hidden text-ellipsis nowrap"><%= user.name %></div>

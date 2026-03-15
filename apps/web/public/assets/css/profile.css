@@ -1,4 +1,4 @@
-#profile .banner {
+#profile #banner {
     min-height: 100px;
     max-height: 250px;
     aspect-ratio: 4 / 1;
@@ -8,7 +8,7 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-#profile .banner .buttons {
+#profile #banner .buttons {
     bottom: 0px;
     right: 0px;
     padding: 8px;
@@ -16,32 +16,32 @@
     max-height: 100%;
 }
 
-#profile .basics {
+#profile #basics {
     padding: 8px 16px;
 }
 
-#profile .basics .avatar {
+#profile #basics .avatar {
     width: 96px;
     height: 96px;
     background: var(--c-base-25);
 }
 
-#profile .basics .text .name {
+#profile #basics .text .name {
     font-size: 28px;
     font-weight: bold;
     color: white;
     line-height: 1.2;
 }
 
-#profile .basics .flags {
+#profile #basics .flags {
     gap: 8px 16px;
 }
 
-#profile .basics .flags .flag {
+#profile #basics .flags .flag {
     height: 24px;
 }
 
-#profile .basics .stats {
+#profile #basics .stats {
     gap: 8px 24px;
     flex-shrink: 0;
 }
@@ -91,12 +91,12 @@
 }
 
 @media (max-width: 800px) {
-    #profile .basics {
+    #profile #basics {
         padding: 8px 16px;
         flex-direction: column;
     }
 
-    #profile .basics .text {
+    #profile #basics .text {
         flex-grow: 0;
         justify-content: center;
         align-items: center;
@@ -104,21 +104,21 @@
         flex-shrink: 0;
     }
 
-    #profile .basics .flags {
+    #profile #basics .flags {
         justify-content: center;
     }
 
-    #profile .basics .avatar {
+    #profile #basics .avatar {
         width: 64px;
         height: 64px;
         border-radius: 16px;
     }
 
-    #profile .basics .text .name {
+    #profile #basics .text .name {
         font-size: 22px;
     }
 
-    #profile .basics .stats {
+    #profile #basics .stats {
         flex-basis: 100%;
         justify-content: center;
         text-align: center;
