@@ -4,6 +4,7 @@
     class="flex col gap-16"
     data-socket-room="user_<%= user.id %>,maps"
     hx-get=""
+    hx-select="#dummy"
     hx-select-oob="#basicStats,#completionProgressCard,#recentPassesCard"
     hx-swap="none"
     hx-trigger="page_refocus from:body throttle:60s, socket_update_stats from:body, socket_new_mapset from:body">
