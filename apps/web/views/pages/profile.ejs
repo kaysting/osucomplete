@@ -6,6 +6,7 @@
     hx-get=""
     hx-select="#dummy"
     hx-select-oob="#basicStats,#completionProgressCard,#recentPassesCard"
+    hx-indicator="none"
     hx-swap="none"
     hx-trigger="page_refocus from:body throttle:60s, socket_update_stats from:body, socket_new_mapset from:body">
     <%- include('../partials/profile/cardImportProgress', { updateStatus }) %>
