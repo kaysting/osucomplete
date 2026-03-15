@@ -1,4 +1,4 @@
-<section id="playNext" class="card lighter padded recommended flex col gap-16">
+<section id="playNext" class="card lighter padded recommended flex col gap-16 ease-100">
     <div>
         <h2 class="header">what to play next</h2>
     </div>
@@ -13,7 +13,9 @@
             <button
                 class="btn square"
                 hx-get="?partial=play_next"
+                hx-select="#playNext"
                 hx-target="#playNext"
+                hx-indicator="#playNext"
                 hx-swap="outerHTML"
                 title="Refresh selection">
                 <span class="icon">refresh</span>

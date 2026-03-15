@@ -1798,6 +1798,5 @@ img.loaded {
 
 .htmx-request {
     opacity: 0.5;
-    transition: 0.1s ease-in-out;
     pointer-events: none;
 }

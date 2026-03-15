@@ -214,3 +214,11 @@
 .text-left {
     text-align: left;
 }
+
+.ease-100 {
+    transition: 0.1s ease-in-out;
+}
+
+.ease-200 {
+    transition: 0.2s ease-in-out;
+}

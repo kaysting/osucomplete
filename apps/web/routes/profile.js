@@ -106,7 +106,7 @@ router.get('/:id/:category{/:categoryOld}', ensureUserExists, (req, res) => {
 
     const getRecommended = recentPasses => {
         // If not viewing our own profile or if basic stats are requested, return null
-        if (req.user.id !== req.me?.id || (partial && partial !== 'play_next')) {
+        if (req.user.id !== req.me?.id || (partial && partial != 'play_next')) {
             return { recommended: null, recommendedQuery: null };
         }
 
