@@ -20,7 +20,7 @@
                 value="<%= query %>" />
         </div>
     </form>
-    <section id="results" class="card lighter padded flex col gap-16 ease-100">
+    <section id="results" class="card lighter padded flex col gap-16 loading-fade">
         <div>
             <% if (query) { %>
             <h2 class="header">Players (<%= n(user_results.total_matches) %>)</h2>
