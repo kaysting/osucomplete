@@ -479,11 +479,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Fire custom show/focus event
+let lastRefocusTime = 0;
+const onRefocus = () => {
+    if (Date.now() - lastRefocusTime < 1000 * 60) return;
+    lastRefocusTime = Date.now();
+    document.body.dispatchEvent(new CustomEvent('page_refocus', { bubbles: true }));
+};
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-        document.body.dispatchEvent(new CustomEvent('page_refocus', { bubbles: true }));
+        onRefocus();
     }
 });
+document.addEventListener('focus', onRefocus);
 
 // Handle proxied onClicks
 document.addEventListener('click', e => {

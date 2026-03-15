@@ -2,7 +2,7 @@
     id="yearlyPopupBody"
     class="body flex col gap-16"
     hx-get="?partial=yearly_popup&year=<%= stats.year %>"
-    hx-trigger="page_refocus from:body throttle:60s,
+    hx-trigger="page_refocus from:body,
                 socket_update_profile from:body,
                 socket_update_stats from:body,
                 socket_new_mapset from:body"
