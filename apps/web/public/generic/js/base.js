@@ -128,7 +128,12 @@ const showPopup = (title, body, actions = [], options = {}) => {
 const showDynamicPopup = (title, bodyUrl, actions = [], options = {}) => {
     const popup = showPopup(
         title,
-        `<div hx-get="${bodyUrl}" hx-swap="outerHTML" hx-trigger="load">Loading...</div>`,
+        `<div
+            hx-get="${bodyUrl}"
+            hx-swap="outerHTML"
+            hx-trigger="load">
+            Loading...
+        </div>`,
         actions,
         options
     );
