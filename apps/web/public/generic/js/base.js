@@ -365,23 +365,25 @@ function safelyRunOnLoad(cb = () => {}) {
         cb();
     };
 
-    // 1. Initial Page Load
-    // If the HTML is still parsing, wait for it to finish.
+    // If the HTML is still parsing, wait for it to finish
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', run, { once: true });
         return;
     }
 
-    // 2. HTMX Swaps
     // If the document is already loaded, this script is being injected dynamically by HTMX.
     // HTMX executes scripts right BEFORE the settle phase, so we listen for it.
     document.addEventListener('htmx:afterSettle', run, { once: true });
 
-    // 3. The Safety Net
     // HTMX's default settle delay is 20ms. If the afterSettle event hasn't fired
     // after 150ms, it means this function was called outside of an HTMX swap.
     // The timeout catches it and runs the callback safely.
     setTimeout(run, 150);
+
+    // Mark as run after a few seconds
+    // This prevents later HTMX settle events from causing a run if the
+    // afterSettle event didn't fire immediately
+    setTimeout(() => (hasRun = true), 1000 * 5);
 }
 
 let lastAudioButtonElement;
