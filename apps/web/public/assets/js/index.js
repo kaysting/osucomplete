@@ -52,7 +52,7 @@ const renderGraph = (canvasElement, opts) => {
             borderWidth: 2,
             pointRadius: 0,
             fill: true,
-            tension: 0.3
+            tension: 0.1
         });
     }
 
