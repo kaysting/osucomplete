@@ -43,7 +43,7 @@ These instructions aren't fully tested so please [join the Discord server](https
 
 ## AI Disclosure
 
-This codebase 98% human-written.
+This codebase is 98% human-written and 100% human-reviewed.
 
 Google Gemini has played a significant part in preliminary bug catching and helping to think through complex logic, especially dealing with rare edge cases like convert handling, hybrid mapsets, and import logic.
 
