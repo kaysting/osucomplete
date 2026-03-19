@@ -14,7 +14,7 @@ Before writing any code, please [join the Discord server](https://discord.gg/fNS
 
 I'm currently **not accepting** large-scale refactors, rewrites, or architectural changes. This includes switching to a framework, moving to TypeScript, or reorganizing the project's folder structure.
 
-This project will continue to use Node.js, Express, EJS, vanilla JS, and vanilla CSS for the foreseeable future.
+This project will continue to use Node.js, Express, EJS, HTMX, vanilla JS, and vanilla CSS for the foreseeable future.
 
 **Pull requests that attempt to rewrite, refactor, or restructure the project without significant prior communication will be closed.**
 
@@ -31,3 +31,9 @@ Also leave comments wherever needed so the rest of us (and future you) know what
 Please test your code before you submit a PR to ensure your changes are functional.
 
 You can find development environment setup instructions on the project readme. Use these instructions to get a local server and/or updater running so you can test your code live.
+
+### Don't blindly use AI-generated code
+
+You must review all code you generate with AI before submitting it in a PR. If you proceed with a minimally refactored/reviewed code snippet, leave a comment attributing it to the model you used, and disclosure your use of AI in a PR comment.
+
+Suspected vibe-coded contributions to this project will be rejected without question.

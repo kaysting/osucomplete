@@ -40,3 +40,13 @@ Note that the intent of these instructions is NOT to teach you how to run your o
 Add `http://localhost:8080/auth/callback` as a redirect URI in your osu! application's settings. Replace `localhost:8080` with your hostname/port and ensure it's also set as the `HOSTNAME` env variable.
 
 These instructions aren't fully tested so please [join the Discord server](https://discord.gg/fNSnMG7S3C) if you need any help.
+
+## AI Disclosure
+
+This codebase 98% human-written.
+
+Google Gemini has played a significant part in preliminary bug catching and helping to think through complex logic, especially dealing with rare edge cases like convert handling, hybrid mapsets, and import logic.
+
+Any significant AI-generated logic used in this codebase is accompanied by comments attributing it to the AI model that wrote it. Additionally, these snippets are strictly human-reviewed and refactored to work within the overarching codebase.
+
+Suspected vibe-coded contributions to this project will be rejected without question.
