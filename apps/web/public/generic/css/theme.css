@@ -1237,46 +1237,6 @@ main {
     text-decoration: underline;
 }
 
-#bgCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-img {
-    opacity: 0;
-    transition: opacity 0.1s ease-in;
-}
-
-img.noFade {
-    opacity: 1;
-    transition: none;
-}
-
-img.loaded {
-    opacity: 1;
-}
-
-.empty {
-    font-size: 16px;
-    color: var(--c-base-65);
-}
-
 .beatmapStars,
 .beatmapStatus {
     padding: 0px 8px;
@@ -1794,6 +1754,44 @@ img.loaded {
     top: var(--arrow-y, 50%);
     transform: translateY(-50%);
     border-right-color: var(--tooltip-bg);
+}
+
+#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+img.loading-fade {
+    opacity: 0;
+}
+
+img.loading-fade.loaded {
+    opacity: 1;
+}
+
+img.noFade {
+    opacity: 1;
+}
+
+.empty {
+    font-size: 16px;
+    color: var(--c-base-65);
 }
 
 .loading-fade {

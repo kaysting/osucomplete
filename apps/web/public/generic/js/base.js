@@ -314,6 +314,7 @@ const initImageLoadStates = (parent = document) => {
         if (img.complete) {
             img.classList.add('loaded');
         } else {
+            img.classList.add('loading-fade');
             img.addEventListener('load', () => {
                 img.classList.add('loaded');
             });
