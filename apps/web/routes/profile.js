@@ -253,7 +253,7 @@ router.get('/:id/:category{/:categoryOld}', ensureUserExists, (req, res) => {
     };
 
     // Render import progress partial if requested
-    if (partial == 'import_card') {
+    if (partial == 'import_progress') {
         return res.renderPartial('profile/cardImportProgress', { updateStatus: getUpdateStatus() });
     }
 
