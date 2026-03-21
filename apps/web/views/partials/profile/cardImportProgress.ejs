@@ -5,6 +5,8 @@
     class="card warning flex align-center gap-8"
     hx-get="?partial=import_progress"
     hx-swap="outerHTML"
+    hx-select="#importProgressCard"
+    hx-target="#importProgressCard"
     hx-trigger="every 5s">
     <div class="icon"><%= updateStatus.details.time_started ? 'update' : 'hourglass' %></div>
     <div class="text">
