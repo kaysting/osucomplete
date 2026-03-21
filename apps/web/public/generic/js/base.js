@@ -311,9 +311,7 @@ const initCustomTooltips = () => {
 const initImageLoadStates = (parent = document) => {
     const images = parent.querySelectorAll('img');
     images.forEach(img => {
-        if (img.complete) {
-            img.classList.add('loaded');
-        } else {
+        if (!img.complete) {
             img.classList.add('loading-fade');
             img.addEventListener('load', () => {
                 img.classList.add('loaded');
