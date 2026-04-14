@@ -1,4 +1,4 @@
-body:not(.scrolled) [data-page="home"] #topbar {
+body:not(.scrolled)[data-page="home"] #topbar {
     background: transparent;
 }
 
