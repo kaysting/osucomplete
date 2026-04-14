@@ -32,14 +32,18 @@ Yes. All maps with a permanent leaderboard (ranked, approved, loved) count for c
 
 Whether or not loved maps and maps converted from osu! standard to other modes are included depends on your category selection, available at the top of leaderboard, profile, and play next pages.
 
+## Do passes with X or Y mods count?
+
+Yes. Any passing score submitted to the osu! servers counts as a clear, regardless of what mods were used. This means you can complete maps using rate change, relax, autopilot, difficulty adjust, and more.
+
 ## Why am I missing some of my passes?
 
 While initial import using your most played section is usually accurate, there are some cases where you might be missing passes. Find and click the link on your profile page labeled "help, my stats aren't accurate", read the detailed explanation, and follow the prompt to start a full import.
 
 ## How often are my stats updated?
 
-We check for new passes from all tracked users roughly once a minute, and we update the stats for all users who got new passes. This means that passing a new map will result in your stats being updated almost immediately.
+Your stats are updated immediately after you submit a passing score to osu!.
 
 ## How is osu!complete able to check everyone's recent scores so frequently?
 
-The osu! API exposes an endpoint that allows us to request a list of all passing scores submitted to the osu! servers, either after a specific point, or the most recent 1000. This is the secret sauce for getting passes for upwards of a thousand users almost instantly.
+o!c utilizes a sibling project, [osu-score-cache](https://github.com/kaysting/osu-score-cache), which continuously polls the osu! servers for newly submitted passing scores and broadcasts those new score events over a real-time server. This pipeline allows o!c to save new scores and update completion stats often within a few seconds after scores are submitted.
