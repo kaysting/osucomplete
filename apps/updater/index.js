@@ -103,25 +103,12 @@ const runGenerateSitemap = async () => {
 };
 
 async function main() {
-    // Make sure osu API is accessible before doing anything else
-    await checkOsuAccessibility();
-    await new Promise(resolve => {
-        let timeout;
-        const wait = async () => {
-            if (isOsuOnline) {
-                resolve();
-            } else {
-                setTimeout(wait, 1000 * 60);
-            }
-        };
-        wait();
-    });
-
     // Get osu API token
     // We await this before starting other processes to avoid
     // getting a bunch of tokens at once
     log('Authenticating with osu API...');
-    await osu.getToken();
+    await checkOsuAccessibility();
+    if (isOsuOnline) await osu.getToken();
 
     // Start update processes
     log(`Starting update processes...`);
