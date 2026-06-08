@@ -12,7 +12,15 @@ const pokeOsuApi = async () => {
     const oldStatus = isOsuOnline;
     let statusCode = null;
     try {
-        await osu.getUser(2);
+        const token = await osu.getToken();
+        await axios.get('/users/2', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+            timeout: 1000 * 15
+        });
         isOsuOnline = true;
     } catch (error) {
         statusCode = error.response?.status;
