@@ -30,7 +30,7 @@ const checkOsuAccessibility = async () => {
             );
         }
     }
-    setTimeout(checkOsuAccessibility, 1000 * 60 * 10);
+    setTimeout(checkOsuAccessibility, 1000 * 60);
     return isOsuOnline;
 };
 
