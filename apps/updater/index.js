@@ -7,7 +7,7 @@ const { io } = require('socket.io-client');
 const utils = require('#utils');
 
 const axios = require('axios');
-let isOsuOnline = null;
+let isOsuOnline = true; // change this back
 const checkOsuAccessibility = async () => {
     const oldStatus = isOsuOnline;
     let statusCode = null;
@@ -110,7 +110,7 @@ async function main() {
     // We await this before starting other processes to avoid
     // getting a bunch of tokens at once
     log('Authenticating with osu API...');
-    await checkOsuAccessibility();
+    //await checkOsuAccessibility();
     if (isOsuOnline) await osu.getToken();
 
     // Start update processes
