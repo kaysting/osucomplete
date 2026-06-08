@@ -13,7 +13,7 @@ const pokeOsuApi = async () => {
     let statusCode = null;
     try {
         const token = await osu.getToken();
-        await axios.get('/users/2', {
+        await axios.get('https://osu.ppy.sh/api/v2/users/2', {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
