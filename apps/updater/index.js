@@ -6,9 +6,34 @@ const dayjs = require('dayjs');
 const { io } = require('socket.io-client');
 const utils = require('#utils');
 
+const axios = require('axios');
+let isOsuOnline = false;
+const checkOsuAccessibility = async () => {
+    const oldStatus = isOsuOnline;
+    let statusCode = null;
+    try {
+        await axios.get('https://osu.ppy.sh/api/v2/auth/token');
+        isOsuOnline = true;
+    } catch (error) {
+        statusCode = error.response?.status;
+        isOsuOnline = statusCode === 401;
+    }
+    if (oldStatus !== isOsuOnline) {
+        if (isOsuOnline) {
+            utils.log(`osu! API is online`);
+        } else {
+            utils.logError(
+                `osu! API is currently inaccessible (error ${statusCode}), updates will be delayed until access is restored`
+            );
+        }
+    }
+    setTimeout(checkOsuAccessibility, 1000 * 60);
+    return isOsuOnline;
+};
+
 const scoreBuffer = [];
 const saveFromScoreBuffer = async () => {
-    if (scoreBuffer.length > 0) {
+    if (isOsuOnline && scoreBuffer.length > 0) {
         const scoresToSave = scoreBuffer.splice(0, 1000);
         await writers.savePassesFromScores(scoresToSave);
     }
@@ -16,7 +41,7 @@ const saveFromScoreBuffer = async () => {
 };
 
 const runUpdateGlobalRecents = async () => {
-    await writers.savePassesFromGlobalRecents();
+    if (isOsuOnline) await writers.savePassesFromGlobalRecents();
     setTimeout(runUpdateGlobalRecents, 1000 * 60 * 5);
 };
 
@@ -36,29 +61,31 @@ const runSaveHistory = async () => {
 };
 
 const runImportQueue = async () => {
-    await writers.startQueuedImports();
+    if (isOsuOnline) await writers.startQueuedImports();
     setTimeout(runImportQueue, 5000);
 };
 
 const runFetchNewMaps = async () => {
-    await writers.fetchNewMapData();
+    if (isOsuOnline) await writers.fetchNewMapData();
     setTimeout(runFetchNewMaps, 1000 * 60 * 5);
 };
 
 let isFullStatusUpdateRunning = false;
 const runUpdateAllMapStatuses = async () => {
-    isFullStatusUpdateRunning = true;
-    try {
-        await writers.updateMapStatuses();
-    } catch (error) {
-        utils.logError(error);
+    if (isOsuOnline) {
+        isFullStatusUpdateRunning = true;
+        try {
+            await writers.updateMapStatuses();
+        } catch (error) {
+            utils.logError(error);
+        }
+        isFullStatusUpdateRunning = false;
     }
-    isFullStatusUpdateRunning = false;
     setTimeout(runUpdateAllMapStatuses, 1000 * 60 * 60 * 24);
 };
 
 const runUpdateRecentMapStatuses = async () => {
-    if (!isFullStatusUpdateRunning) {
+    if (isOsuOnline && !isFullStatusUpdateRunning) {
         const after = Date.now() - 1000 * 60 * 60 * 24 * 7;
         await writers.updateMapStatuses(after);
     }
@@ -76,6 +103,11 @@ const runGenerateSitemap = async () => {
 };
 
 async function main() {
+    // Make sure osu API is accessible before doing anything else
+    const waitForAccess = async () => {
+        const isOnline = await checkOsuAccessibility();
+    };
+
     // Get osu API token
     // We await this before starting other processes to avoid
     // getting a bunch of tokens at once
