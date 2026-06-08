@@ -21,13 +21,16 @@ const checkOsuAccessibility = async () => {
     if (oldStatus !== isOsuOnline) {
         if (isOsuOnline) {
             utils.log(`osu! API is online`);
+            if (oldStatus === false) {
+                utils.logError(`osu! API access has been restored!`);
+            }
         } else {
             utils.logError(
                 `osu! API is currently inaccessible (error ${statusCode}), updates will be delayed until access is restored`
             );
         }
     }
-    setTimeout(checkOsuAccessibility, 1000 * 60);
+    setTimeout(checkOsuAccessibility, 1000 * 60 * 10);
     return isOsuOnline;
 };
 
