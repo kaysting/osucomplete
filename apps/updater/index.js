@@ -7,7 +7,7 @@ const { io } = require('socket.io-client');
 const utils = require('#utils');
 
 const axios = require('axios');
-let isOsuOnline = false;
+let isOsuOnline = null;
 const checkOsuAccessibility = async () => {
     const oldStatus = isOsuOnline;
     let statusCode = null;
@@ -104,9 +104,18 @@ const runGenerateSitemap = async () => {
 
 async function main() {
     // Make sure osu API is accessible before doing anything else
-    const waitForAccess = async () => {
-        const isOnline = await checkOsuAccessibility();
-    };
+    await checkOsuAccessibility();
+    await new Promise(resolve => {
+        let timeout;
+        const wait = async () => {
+            if (isOsuOnline) {
+                resolve();
+            } else {
+                setTimeout(wait, 1000 * 60);
+            }
+        };
+        wait();
+    });
 
     // Get osu API token
     // We await this before starting other processes to avoid
