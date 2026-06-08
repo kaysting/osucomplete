@@ -7,12 +7,12 @@ const { io } = require('socket.io-client');
 const utils = require('#utils');
 
 const axios = require('axios');
-let isOsuOnline = true; // change this back
-const checkOsuAccessibility = async () => {
+let isOsuOnline = null;
+const pokeOsuApi = async () => {
     const oldStatus = isOsuOnline;
     let statusCode = null;
     try {
-        await axios.get('https://osu.ppy.sh/api/v2/auth/token');
+        await osu.getUser(2);
         isOsuOnline = true;
     } catch (error) {
         statusCode = error.response?.status;
@@ -30,7 +30,7 @@ const checkOsuAccessibility = async () => {
             );
         }
     }
-    setTimeout(checkOsuAccessibility, 1000 * 60);
+    setTimeout(pokeOsuApi, 1000 * 60);
     return isOsuOnline;
 };
 
@@ -110,8 +110,7 @@ async function main() {
     // We await this before starting other processes to avoid
     // getting a bunch of tokens at once
     log('Authenticating with osu API...');
-    //await checkOsuAccessibility();
-    if (isOsuOnline) await osu.getToken();
+    await pokeOsuApi();
 
     // Start update processes
     log(`Starting update processes...`);
